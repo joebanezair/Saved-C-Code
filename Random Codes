@@ -1,0 +1,181 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace InsertData
+{
+    public partial class create_account : Form
+    {
+        connectionDB cn = new connectionDB();
+        converterBin convert = new converterBin();
+        Login lg = new Login();
+        create_account c = new create_account();
+        public create_account()
+        {
+            InitializeComponent();
+        }
+
+        private void create_account_Load(object sender, EventArgs e)
+        {
+            int _age;
+            age.Text = "Age";
+            for (_age = 1; _age < 101; _age++) {
+                age.Items.Add(_age);
+            }
+        }
+
+        private void back_Login_Click(object sender, EventArgs e)
+        {
+            string message = "Back to Login?";
+            string title = "Yes or no?";
+            MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+            DialogResult result = MessageBox.Show(message, title, buttons);
+            if (result == DialogResult.Yes){
+                c.Close();
+                lg.ShowDialog();} else {}
+
+        }
+
+        private void submit_Click(object sender, EventArgs e)
+        {
+            string name;
+            name = first_Name.Text;
+
+            var binary = convert.ToBinary(convert.ConvertToByteArray(name, Encoding.ASCII));
+
+            MessageBox.Show(binary);
+            MessageBox.Show(binary.ToString());
+          
+           
+        }
+
+        
+
+
+
+    }
+}
+
+/*https ://github.com/joebanezair/Dexter_C-/blob/cd121b012a552cc4f841aed15733a45af5999f7d/05*/
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace InsertData
+{
+    class converterBin
+    {
+        public byte[] ConvertToByteArray
+        (string str, Encoding encoding) 
+        { return encoding.GetBytes(str); }
+        public string ToBinary(Byte[] data) 
+        { return string.Join(" ", data.Select(byt => Convert.ToString(byt, 2).PadLeft(8, '0'))); }
+    }
+}
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Data.SqlClient;
+
+namespace InsertData
+{
+    class connectionDB
+    {
+
+
+        private string connection = null;
+        SqlConnection con;
+
+
+        public void Connection()
+        {
+            connection = "Data Source = DESKTOP-52H7VC8\\SQLEXPRESS;Initial Catalog = Hiring_Resource; User ID = DESKTOP-52H7VC8\\Yen Yen; Trusted_Connection = True";
+            con = new SqlConnection(connection);
+            try { con.Open(); con.Close(); } catch (Exception) { }
+        }
+
+        
+
+         
+
+    }
+}
+
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Data.SqlClient;
+
+namespace InsertData
+{
+    public partial class Login : Form
+    {
+        
+        public Login()
+        {
+            InitializeComponent();
+        }
+
+        private void close_Click(object sender, EventArgs e)
+        {
+            string message = "Do you want to close this window?";
+            string title = "Close Hiring Resource Hub";
+            MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+            DialogResult result = MessageBox.Show(message, title, buttons);
+            if (result == DialogResult.Yes)
+            {
+                this.Close();
+            }
+            else
+            {
+                // Do something  
+            }
+        }
+
+        private void _login_Click(object sender, EventArgs e)
+        {
+            create_account open = new create_account();
+            Login Main = new Login();
+            open.ShowDialog();
+            Main.Close();
+        }
+
+        private void Login_Load(object sender, EventArgs e)
+        {
+            connectionDB connection = new connectionDB();
+            try
+            {
+                connection.Connection();
+                MessageBox.Show("Connected!");
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("You Cannot Connect!");
+            }
+
+        }
+    }
+}
+
+//Data Source = (LocalDB)\\MSSQLLocalDB; AttachDbFilename = 'D:\\Saved Files\\School\\Integrative Programming\\NEW DEX\\InsertData\\InsertData\\Hiring_Resource.mdf'; Integrated Security = True";
+           
