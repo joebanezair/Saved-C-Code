@@ -179,3 +179,103 @@ namespace InsertData
 
 //Data Source = (LocalDB)\\MSSQLLocalDB; AttachDbFilename = 'D:\\Saved Files\\School\\Integrative Programming\\NEW DEX\\InsertData\\InsertData\\Hiring_Resource.mdf'; Integrated Security = True";
            
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Data.SqlClient;
+
+namespace HHub_
+{
+    public partial class create_account : Form
+    {
+        private string connection = null;
+        SqlConnection con;
+        public create_account()
+        {
+            InitializeComponent();
+        }
+
+        private void create_account_Load(object sender, EventArgs e)
+        {
+            this.age.Text = "Age";
+            this.gender.Text = "Gender";
+
+            string[] gendre = {"Male", "Female"};
+            foreach (string value in gendre) {
+                this.gender.Items.Add(value);
+            }
+            
+            for (int age__ = 1; age__ < 101; age__++) {
+                this.age.Items.Add(age__);
+            }
+
+            connection = "Data Source = DESKTOP-52H7VC8\\SQLEXPRESS;Initial Catalog = Hiring_Resource; User ID = DESKTOP-52H7VC8\\Yen Yen; Trusted_Connection = True";
+            con = new SqlConnection(connection);
+            try { con.Open(); con.Close(); } catch (Exception) { }
+        }
+
+        private void login_Click(object sender, EventArgs e)
+        {
+            string message = "Your current data will be deleted\n\nDo you want to continue?";
+            string title = "Back to Login?";
+            MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+            DialogResult result = MessageBox.Show(message, title, buttons);
+            if (result == DialogResult.Yes) { close(true); }
+        }
+
+        public void close(bool close) {
+            this.Close();
+            return;
+        }
+
+        private void _create_acc_Click(object sender, EventArgs e)
+        {
+            if (match.Text == "Passwords don't matched" || match.Text == "Passwords are empty!"
+                || match.Text == "Passwords must be longer\nthan 8 characters!")
+            {
+                MessageBox.Show("We cannot continue\nPlease settle your passwords!");
+            }
+            else if (robot.Checked == false)
+            {
+                MessageBox.Show("We cannot continue\nPlease confirm if you are a robot\nor not!");
+            }
+            else {
+                MessageBox.Show("Your data is already been saved to the database\nYou can now login your account!");
+                this.password_1.Clear();
+                this.password_2.Clear();
+                this.check_pass.Checked = false;
+                robot.Checked = false;
+                this.match.Text = "";
+            }
+        }
+
+        private void check_pass_CheckedChanged(object sender, EventArgs e)
+        {
+            string password1 = password_1.Text, password2 = password_2.Text;
+            if (password1 != password2)
+            {
+                match.Text = "Passwords don't matched";
+                match.ForeColor = Color.Red;
+            }
+            else if (password2 == "" || password1 == "")
+            {
+                match.Text = "Passwords are empty!";
+                match.ForeColor = Color.Red;
+            }
+            else if (password2.Length < 8 || password1.Length < 8)
+            {
+                match.Text = "Passwords must be longer\nthan 8 characters!";
+                match.ForeColor = Color.Red;
+            }else{
+                match.Text = "Passwords matched!";
+                match.ForeColor = Color.Green;
+            }
+        }
+    }
+}
