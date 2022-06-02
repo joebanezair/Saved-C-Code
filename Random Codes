@@ -279,3 +279,48 @@ namespace HHub_
         }
     }
 }
+
+
+    /* void ShowData() {
+            con.Open();
+
+            SqlCommand userName, umail;
+            SqlDataReader mail;
+
+            umail = new SqlCommand("select user_email from userData",con);
+            
+            mail = umail.ExecuteReader();
+ 
+            if (mail.Read())
+            {
+                email.Text = mail.GetValue(0).ToString();
+            }
+            con.Close();
+        }
+
+        void name()
+        {
+            con.Open();
+            string query = "select user_name from userData";
+            SqlCommand umail = new SqlCommand(query, con);
+            SqlDataReader mail = umail.ExecuteReader();
+
+            if (mail.Read())
+            {
+               username.Text = "NAME : " + mail.GetValue(0).ToString().ToUpper();
+            }
+            con.Close();
+        } 
+
+        void _age() {
+            con.Open();
+            SqlCommand umail = new SqlCommand("select user_age from userData", con);
+            SqlDataReader mail = umail.ExecuteReader();
+
+            if (mail.Read())
+            {
+                age.Text = mail.GetValue(0).ToString();
+            }
+            con.Close();
+        } */
+
